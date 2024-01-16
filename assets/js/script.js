@@ -49,10 +49,15 @@ function fetchWeather(lat, lon) {
             return response.json();
         })
         .then(function (weatherData) {
+            // Log the entire forecast data
+            console.log("Complete Forecast Data:", weatherData);
             handleCurrentWeatherData(weatherData);
             console.log(weatherData);
+            // Call this function to process and display forecast data
+            handleForecastData(weatherData);
         });
 }
+
 
 function handleCurrentWeatherData(weatherData) {
     // Assuming the first item in the list is the current weather
@@ -78,5 +83,49 @@ function handleCurrentWeatherData(weatherData) {
     <p>Humidity: ${currentWeather.main.humidity}%</p>
     <p>Wind Speed: ${currentWeather.wind.speed} m/s</p>
 `;
+    var weatherIconUrl = `https://openweathermap.org/img/wn/${currentWeather.weather[0].icon}.png`;
+    var weatherIconImg = document.createElement('img');
+    weatherIconImg.src = weatherIconUrl;
+    weatherIconImg.alt = 'Weather Icon';
+    todaySection.appendChild(weatherIconImg);
 }
 
+function handleForecastData(weatherData) {
+    const forecastContainer = document.getElementById('forecast');
+    
+    forecastContainer.innerHTML = ''; // Clear existing forecast content
+    // Create and append the forecast heading
+    const forecastHeading = document.createElement('h1');
+    forecastHeading.textContent = '5-Day Forecast:';
+    forecastContainer.appendChild(forecastHeading);
+
+    for (let i = 0; i < weatherData.list.length; i += 8) { // Skip 8 intervals for daily data (3-hour intervals)
+        // Create a card element for the forecast
+        const forecastElement = document.createElement('div');
+
+        forecastElement.classList.add('forecast-card'); // Add classes for styling
+        // Extract data for this day
+        const forecast = weatherData.list[i];
+        const date = new Date(forecast.dt * 1000).toLocaleDateString('en-GB');
+        const iconUrl = `https://openweathermap.org/img/wn/${forecast.weather[0].icon}.png`;
+        const temperature = forecast.main.temp - 273.15; // Convert from Kelvin to Celsius
+        const windSpeed = forecast.wind.speed; // Wind speed in m/s
+
+
+        // Construct the card content
+        forecastElement.innerHTML = `
+        <div class="card text-white bg-primary mb-3" style="max-width: 18rem;"> <!-- Bootstrap card with blue background -->
+            <div class="card-header">${date}</div> <!-- Date as card header -->
+            <div class="card-body">
+                <h5 class="card-title"><img src="${iconUrl}" alt="Weather icon"></h5> <!-- Weather icon next to the title -->
+                <p class="card-text">Temp: ${temperature.toFixed(1)} °C</p>
+                <p class="card-text">Wind: ${windSpeed.toFixed(1)} m/s</p>
+                <p class="card-text">Humidity: ${forecast.main.humidity}%</p>
+            </div>
+        </div>
+    `;
+    
+        // Append the card to the forecast container
+        forecastContainer.appendChild(forecastElement);
+    }
+}
