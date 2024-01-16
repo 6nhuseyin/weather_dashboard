@@ -85,8 +85,8 @@ function handleCurrentWeatherData(weatherData) {
      <p>Humidity: ${currentWeather.main.humidity}%</p>
      <p>Wind Speed: ${currentWeather.wind.speed} m/s</p>
  `;*/
-    
- todaySection.innerHTML = `
+
+    todaySection.innerHTML = `
         <h2>${weatherData.city.name} (${currentDate})</h2>
         <div class="today-weather-details">
             <img src="https://openweathermap.org/img/wn/${currentWeather.weather[0].icon}.png" alt="Weather Icon">
@@ -95,7 +95,7 @@ function handleCurrentWeatherData(weatherData) {
             <p>Wind Speed: ${currentWeather.wind.speed} m/s</p>
         </div>
             `;
-        
+
     /* var weatherIconUrl = `https://openweathermap.org/img/wn/${currentWeather.weather[0].icon}.png`;
      var weatherIconImg = document.createElement('img');
      weatherIconImg.src = weatherIconUrl;
