@@ -3,11 +3,9 @@
 let openWeatherAPIKey = "7f9396ef9b0898f3254c073ab6d925be";
 
 let city;
-let lat;
-let lon;
 
 // var queryURL = "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&appid" + openWeatherAPIKey;
-var queryURL = "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&appid" + openWeatherAPIKey;
+// var queryURL = "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&appid" + openWeatherAPIKey;
 
 // fetch(queryURL);
 
@@ -51,9 +49,34 @@ function fetchWeather(lat, lon) {
             return response.json();
         })
         .then(function (weatherData) {
-            
-            console.log(weatherData); 
+            handleCurrentWeatherData(weatherData);
+            console.log(weatherData);
         });
 }
 
+function handleCurrentWeatherData(weatherData) {
+    // Assuming the first item in the list is the current weather
+    var currentWeather = weatherData.list[0];
+
+    // Log the current weather data to the console
+    console.log("Current Weather Data:", currentWeather);
+
+    // Convert temperature from Kelvin to Celsius (if API returns temperature in Kelvin)
+    var temperatureCelsius = currentWeather.main.temp - 273.15;
+    console.log("Current Temp:", temperatureCelsius);
+
+    var dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+
+    console.log(dateOptions);
+    var currentDate = new Date(currentWeather.dt * 1000).toLocaleDateString('en-GB', dateOptions);
+    console.log(currentDate);
+    // Update the #today section with current weather data
+    var todaySection = document.getElementById('today');
+    todaySection.innerHTML = `
+    <h2>${weatherData.city.name} (${currentDate})</h2>
+    <p>Temperature: ${temperatureCelsius.toFixed(1)} °C</p>
+    <p>Humidity: ${currentWeather.main.humidity}%</p>
+    <p>Wind Speed: ${currentWeather.wind.speed} m/s</p>
+`;
+}
 
