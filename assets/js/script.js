@@ -12,12 +12,12 @@ var queryURL = "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "
 // fetch(queryURL);
 
 
-document.getElementById('search-form').addEventListener('submit', function(event) {
+document.getElementById('search-form').addEventListener('submit', function (event) {
     event.preventDefault(); // Prevents page reload
 
     // Get the city from the input field
     city = document.getElementById('search-input').value;
-
+    console.log(city);
     // Call function to fetch coordinates for the city
     fetchCoordinates(city);
 });
@@ -28,10 +28,10 @@ function fetchCoordinates(city) {
 
     // Fetch the coordinates
     fetch(geocodeURL)
-        .then(function(response) {
+        .then(function (response) {
             return response.json();
         })
-        .then(function(data) {
+        .then(function (data) {
             // Assuming the first result is the desired one
             var lat = data[0].lat;
             var lon = data[0].lon;
@@ -47,14 +47,13 @@ function fetchWeather(lat, lon) {
 
     // Fetch the weather data
     fetch(weatherURL)
-        .then(function(response) {
+        .then(function (response) {
             return response.json();
         })
-        .then(function(weatherData) {
-            // Handle the weather data (display it on the webpage)
-            console.log(weatherData); // This is for testing; replace with your display logic
+        .then(function (weatherData) {
+            
+            console.log(weatherData); 
         });
 }
-
 
 
