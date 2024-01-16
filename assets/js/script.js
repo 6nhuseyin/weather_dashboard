@@ -77,22 +77,35 @@ function handleCurrentWeatherData(weatherData) {
     console.log(currentDate);
     // Update the #today section with current weather data
     var todaySection = document.getElementById('today');
-    todaySection.innerHTML = `
-    <h2>${weatherData.city.name} (${currentDate})</h2>
-    <p>Temperature: ${temperatureCelsius.toFixed(1)} °C</p>
-    <p>Humidity: ${currentWeather.main.humidity}%</p>
-    <p>Wind Speed: ${currentWeather.wind.speed} m/s</p>
-`;
-    var weatherIconUrl = `https://openweathermap.org/img/wn/${currentWeather.weather[0].icon}.png`;
-    var weatherIconImg = document.createElement('img');
-    weatherIconImg.src = weatherIconUrl;
-    weatherIconImg.alt = 'Weather Icon';
-    todaySection.appendChild(weatherIconImg);
+    todaySection.className = 'today-weather';
+
+    /* todaySection.innerHTML = `
+     <h2>${weatherData.city.name} (${currentDate})</h2>
+     <p>Temperature: ${temperatureCelsius.toFixed(1)} °C</p>
+     <p>Humidity: ${currentWeather.main.humidity}%</p>
+     <p>Wind Speed: ${currentWeather.wind.speed} m/s</p>
+ `;*/
+    
+ todaySection.innerHTML = `
+        <h2>${weatherData.city.name} (${currentDate})</h2>
+        <div class="today-weather-details">
+            <img src="https://openweathermap.org/img/wn/${currentWeather.weather[0].icon}.png" alt="Weather Icon">
+            <p>Temperature: ${temperatureCelsius.toFixed(1)} °C</p>
+            <p>Humidity: ${currentWeather.main.humidity}%</p>
+            <p>Wind Speed: ${currentWeather.wind.speed} m/s</p>
+        </div>
+            `;
+        
+    /* var weatherIconUrl = `https://openweathermap.org/img/wn/${currentWeather.weather[0].icon}.png`;
+     var weatherIconImg = document.createElement('img');
+     weatherIconImg.src = weatherIconUrl;
+     weatherIconImg.alt = 'Weather Icon';
+     todaySection.appendChild(weatherIconImg);*/
 }
 
 function handleForecastData(weatherData) {
     const forecastContainer = document.getElementById('forecast');
-    
+
     forecastContainer.innerHTML = ''; // Clear existing forecast content
     // Create and append the forecast heading
     const forecastHeading = document.createElement('h1');
@@ -124,7 +137,7 @@ function handleForecastData(weatherData) {
             </div>
         </div>
     `;
-    
+
         // Append the card to the forecast container
         forecastContainer.appendChild(forecastElement);
     }

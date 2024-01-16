@@ -20,3 +20,11 @@
 .forecast-card .card-text {
     font-size: 1.37rem;
 }
+
+.today-weather {
+    background-color: #f8f9fa; /* A light grey background, or any color you prefer */
+    padding: 20px;
+    margin-bottom: 20px; /* To give some space between this and the forecast cards */
+    border-radius: 10px; /* Optional: if you want rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: if you want a subtle shadow */
+}
